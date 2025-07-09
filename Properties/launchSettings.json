@@ -1,0 +1,25 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:29786",
+      "sslPort": 44361
+    }
+  },
+
+  "profiles": {
+    "LPWebAPI": { // ✅ This is your LAN-accessible profile
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger", // Swagger opens in browser
+      "applicationUrl": "http://0.0.0.0:5080", // ✅ Binds to all network interfaces
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
