@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using LPWebAPI.Models;
@@ -19,7 +20,8 @@ namespace LPWebAPI.Controllers
         }
 
         [HttpGet("{A}")]
-        public IActionResult Get(string A)
+        //[ProducesResponseType(typeof(List<JobNoDto>), 200)] // Uncomment if you want explicit Swagger hint
+        public ActionResult<List<JobNoDto>> Get(string A)
         {
             try
             {
@@ -31,15 +33,19 @@ namespace LPWebAPI.Controllers
                 cmd.Parameters.AddWithValue("@A", A);
 
                 using var rdr = cmd.ExecuteReader();
-                if (!rdr.Read())
+                var list = new List<JobNoDto>();
+                while (rdr.Read())
+                {
+                    list.Add(new JobNoDto
+                    {
+                        ProOrdNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
+                    });
+                }
+
+                if (list.Count == 0)
                     return BadRequest("khong hop le");
 
-                var dto = new JobNoDto
-                {
-                    ProOrdNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
-                };
-
-                return Ok(dto);
+                return Ok(list);
             }
             catch (Exception ex)
             {
