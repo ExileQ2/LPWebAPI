@@ -26,7 +26,7 @@ namespace LPWebAPI.Controllers
                 using var conn = new SqlConnection(_conn);
                 conn.Open();
 
-                using var cmd = new SqlCommand("dbo.layInfoMay", conn);
+                using var cmd = new SqlCommand("web.layInfoMay", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@GetMachine", McName);
 

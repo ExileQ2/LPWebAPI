@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,37 +8,37 @@ using LPWebAPI.Models;
 
 namespace LPWebAPI.Controllers
 {
-    [Route("api/[controller]")]      // GET /api/laylsx/{A}
+    [Route("api/[controller]")]   // GET /api/getserial/{proOrdNo}
     [ApiController]
-    public class LaylsxController : ControllerBase
+    public class GetSerialController : ControllerBase
     {
         private readonly string _conn;
 
-        public LaylsxController(IConfiguration config)
+        public GetSerialController(IConfiguration config)
         {
             _conn = config.GetConnectionString("DefaultConnection");
         }
 
-        [HttpGet("{A}")]
-        //[ProducesResponseType(typeof(List<JobNoDto>), 200)] // Uncomment if you want explicit Swagger hint
-        public ActionResult<List<JobNoDto>> Get(string A)
+        [HttpGet("{proOrdNo}")]
+        //[ProducesResponseType(typeof(List<SerialDto>), 200)]
+        public ActionResult<List<SerialDto>> GetSerial(string proOrdNo)
         {
             try
             {
-                using var cn = new SqlConnection(_conn);
-                cn.Open();
+                using var conn = new SqlConnection(_conn);
+                conn.Open();
 
-                using var cmd = new SqlCommand("web.layLSX", cn);
+                using var cmd = new SqlCommand("web.laySerial", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@A", A);
+                cmd.Parameters.AddWithValue("@ProOrdNo", proOrdNo);
 
                 using var rdr = cmd.ExecuteReader();
-                var list = new List<JobNoDto>();
+                var list = new List<SerialDto>();
                 while (rdr.Read())
                 {
-                    list.Add(new JobNoDto
+                    list.Add(new SerialDto
                     {
-                        ProOrdNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
+                        Serial = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
                     });
                 }
 
