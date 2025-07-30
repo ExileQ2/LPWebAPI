@@ -8,7 +8,7 @@ using LPWebAPI.Models;
 
 namespace LPWebAPI.Controllers
 {
-    [Route("api/[controller]")]   // GET /api/getserial/{proOrdNo}
+    [Route("api/[controller]")]   // GET /api/getserial/{ProOrdNo}
     [ApiController]
     public class GetSerialController : ControllerBase
     {
@@ -19,9 +19,9 @@ namespace LPWebAPI.Controllers
             _conn = config.GetConnectionString("DefaultConnection");
         }
 
-        [HttpGet("{proOrdNo}")]
+        [HttpGet("{ProOrdNo}")]
         //[ProducesResponseType(typeof(List<SerialDto>), 200)]
-        public ActionResult<List<SerialDto>> GetSerial(string proOrdNo)
+        public ActionResult<List<SerialDto>> GetSerial(string ProOrdNo)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace LPWebAPI.Controllers
 
                 using var cmd = new SqlCommand("web.laySerial", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ProOrdNo", proOrdNo);
+                cmd.Parameters.AddWithValue("@ProOrdNo", ProOrdNo);
 
                 using var rdr = cmd.ExecuteReader();
                 var list = new List<SerialDto>();
