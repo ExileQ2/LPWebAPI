@@ -2,6 +2,6 @@
 {
     public class JobNoDto
     {
-        public string ProOrdNo { get; set; }
+        public string JobControlNo { get; set; }
     }
 }

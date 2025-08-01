@@ -8,7 +8,7 @@ using LPWebAPI.Models;
 
 namespace LPWebAPI.Controllers
 {
-    [Route("api/[controller]")]      // GET /api/laylsx/{ProOrdNo}
+    [Route("api/[controller]")]      // GET /api/laylsx/{JobControlNo}
     [ApiController]
     public class LaylsxController : ControllerBase
     {
@@ -19,9 +19,9 @@ namespace LPWebAPI.Controllers
             _conn = config.GetConnectionString("DefaultConnection");
         }
 
-        [HttpGet("{ProOrdNo}")]
+        [HttpGet("{JobControlNo}")]
         //[ProducesResponseType(typeof(List<JobNoDto>), 200)] // Uncomment if you want explicit Swagger hint
-        public ActionResult<List<JobNoDto>> Get(string ProOrdNo)
+        public ActionResult<List<JobNoDto>> Get(string JobControlNo)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace LPWebAPI.Controllers
 
                 using var cmd = new SqlCommand("web.layLSX", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ProOrdNo", ProOrdNo);
+                cmd.Parameters.AddWithValue("@JobControlNo", JobControlNo);
 
                 using var rdr = cmd.ExecuteReader();
                 var list = new List<JobNoDto>();
@@ -38,7 +38,7 @@ namespace LPWebAPI.Controllers
                 {
                     list.Add(new JobNoDto
                     {
-                        ProOrdNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
+                        JobControlNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0)
                     });
                 }
 
