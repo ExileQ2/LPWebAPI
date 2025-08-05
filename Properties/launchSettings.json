@@ -16,7 +16,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger", // Swagger opens in browser
-      "applicationUrl": "http://0.0.0.0:5080", // ✅ Binds to all network interfaces
+      "applicationUrl": "http://192.168.1.68:5080", // <--- binds to your LAN IP
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
