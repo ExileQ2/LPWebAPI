@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using LPWebAPI.Models;
 
 namespace LPWebAPI.Controllers
 {
@@ -30,9 +31,17 @@ namespace LPWebAPI.Controllers
                 cmd.Parameters.AddWithValue("@McName", McName);
                 using var rdr = cmd.ExecuteReader();
                 string processNo = " ";
-                if (rdr.Read() && !rdr.IsDBNull(0))
+                if (rdr.Read())
                 {
-                    processNo = rdr.GetString(0);
+                    processNo = rdr.IsDBNull(0) ? "" : rdr.GetString(0);
+                    var dto = new ProcessNoChuaKetThucDto
+                    {
+                        ProcessNo = processNo,
+                        Note = rdr.IsDBNull(1) ? "" : rdr.GetString(1),
+                        Serial2 = rdr.IsDBNull(2) ? "" : rdr.GetString(2),
+                        ProOrdNo2 = rdr.IsDBNull(3) ? "" : rdr.GetString(3)
+                    };
+                    return Ok(dto);
                 }
                 return Ok(new { processNo });
             }
